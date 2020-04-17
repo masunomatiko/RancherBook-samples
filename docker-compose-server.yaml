@@ -1,0 +1,26 @@
+version: '3.4'
+services:
+  todo-server:
+    build:
+      context: server/
+    environment:
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: sampleapp
+      MYSQL_HOST: todo-mysql
+    command:
+      - /bin/sh
+      - -e
+      - -c
+      - |
+        sleep 20
+        python manage.py test -v 2 -k
+  todo-mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: sampleapp
+    expose:
+      - 3306
